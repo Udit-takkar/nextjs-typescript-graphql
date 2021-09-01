@@ -1,23 +1,26 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import { getDataFromTree } from "@apollo/client/react/ssr";
 import { TESTING_QUERY } from "../graphql/queries";
-import { NextPage ,GetServerSideProps} from "next";
+import { NextPage, GetServerSideProps } from "next";
+import withApollo from "../lib/withApollo";
+import { useTestingQuery } from "../generated/index";
 import { useQuery } from "@apollo/client";
 
-const test:NextPage = (props) => {
-  return <div>
-      {JSON.stringify(props)}
-  </div>;
+export const getStaticProps = async (context) => {
+  // const {data,loading}=await
+  console.log(context);
+  const data = "dummy";
+  return {
+    props: {
+      data,
+    },
+  };
 };
 
-export const getServerSideProps:GetServerSideProps=async (context)=>{
-    const {data,loading}=await useQuery(TESTING_QUERY)
-    
-    return{
-        props{
-           data:data   
-        }
-    }
+function Test(props) {
+  console.log(props.apollo);
+  //   console.log(client)
+  return <div> Hello</div>;
 }
 
-export default test;
+export default withApollo(Test, { getDataFromTree });
