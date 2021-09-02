@@ -7,7 +7,15 @@ import { useTestingQuery } from "../generated/index";
 import { useQuery } from "@apollo/client";
 
 function Test(props) {
-  console.log(props.apollo);
+  const callMe = async () => {
+    const { data, loading } = await props.apollo.query({
+      query: TESTING_QUERY,
+    });
+    console.log(data);
+  };
+  useEffect(() => {
+    callMe();
+  }, []);
   //   console.log(client)
   return <div> Hello</div>;
 }
